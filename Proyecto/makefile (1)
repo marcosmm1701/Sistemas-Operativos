@@ -1,0 +1,31 @@
+CC = gcc
+CFLAGS = -g -Wall -pedantic
+
+############################exe############################
+
+all: miner
+miner : pow.o miner.o registrador.o 
+
+#########################.o################################
+
+pow.o: pow.c pow.h
+	$(CC) $(CFLAGS) -c $^
+
+miner.o: miner.c miner.h pow.h
+	$(CC) $(CFLAGS) -c $^
+
+registrador.o: registrador.c registrador.h
+	$(CC) $(CFLAGS) -c $^
+
+#########################run###############################
+
+run: 
+		./miner 2 1 &  ./miner 3 1
+
+runv:
+		valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes  ./miner 2 1 &  ./miner 3 1
+
+########################clean##############################
+
+clean: 
+		rm *.o *.gch *txt miner 
